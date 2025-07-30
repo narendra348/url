@@ -21,9 +21,13 @@
         document.getElementById('shortenForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const formData = new FormData(this);
-            const response = await fetch('/shorten', {
+            const params = new URLSearchParams();
+            for (const pair of formData.entries()) {
+                params.append(pair[0], pair[1]);
+            }
+            const response = await fetch('/.netlify/functions/shorten', {
                 method: 'POST',
-                body: formData
+                body: params
             });
             const resultDiv = document.getElementById('result');
 
